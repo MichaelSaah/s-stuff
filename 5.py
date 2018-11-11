@@ -19,8 +19,10 @@ for i in reversed(df.index): # loop through indicies backwards
     x = df.loc[i-window+1:i, 'Spread1.log']
     y = df.loc[i-window+1:i, 'Spread2.log']
 
-    # this linear regression can't force a zero intercept, use something else    
-    reg = stats.linregress(x, y)
-    df.loc[i, 'coeff'] = reg.slope
+    x = np.array(x)
+    y = np.array(y)
+    x = x[:,np.newaxis]    
+    reg = np.linalg.lstsq(x, y)
+    df.loc[i, 'coeff'] = reg[0]
 
 print(df)
