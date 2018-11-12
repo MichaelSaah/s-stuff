@@ -26,11 +26,20 @@ for i in reversed(df.index): # loop through indicies backwards
     reg = np.linalg.lstsq(x, y)
     df.loc[i, 'coeff'] = reg[0]
 
+styles = ['r-', 'b-', 'g-']
+pairs = df['tickerPair'].unique()  
+for p, s in zip(pairs, styles):
+    coeffs = df.loc[df['tickerPair'] == p]['coeff'].tolist()
+    plt.plot(coeffs, s, label=p)
 
-xx = df.loc[0:240, 'Spread1.log']
-yy = df.loc[0:240, 'Spread2.log']
-plt.plot(xx, yy, 'b.')
-
-dom = np.arange(min(xx), max(xx), 0.2)
-plt.plot(dom, dom*df.loc[240, 'coeff'], 'r--')
+plt.legend()
 plt.show()
+ 
+
+#xx = df.loc[0:240, 'Spread1.log']
+#yy = df.loc[0:240, 'Spread2.log']
+#plt.plot(xx, yy, 'b.')
+
+#dom = np.arange(min(xx), max(xx), 0.2)
+#plt.plot(dom, dom*df.loc[240, 'coeff'], 'r--')
+#plt.show()
