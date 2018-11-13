@@ -1,7 +1,13 @@
-import pandas as
+import pandas as pd
 
-pdquint = pd.read_csv("/Users/shanametcalf/Desktop/PE-ratio1.csv")
+
+quint = pd.read_csv("PE-ratio1.csv")
+print(quint.head())
+
 quint[['PE_RATIO']] = quint[['PE_RATIO']].apply(lambda x: pd.to_numeric(x, errors='coerce'))
 quint = quint.dropna(subset=['PE_RATIO'])
-quint['percentile'] = quint.groupby(['INDUSTRY_SECTOR'])['PE_RATIO'].transform(lambda x: x.quintile(0.2))
 
+for i in range(1, 5):
+    quint['q'+str(i)] = quint.groupby(['INDUSTRY_SECTOR'])['PE_RATIO'].transform(lambda x: x.quantile(0.2*i))
+
+print(quint.head())
